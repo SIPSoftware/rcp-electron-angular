@@ -15,9 +15,9 @@
     }
   ],
   "win": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/assets/icons/rcp256px.ico",
     "target": [
-      "portable"
+      "nsis"
     ]
   },
   "portable": {
