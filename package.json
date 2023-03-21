@@ -1,25 +1,18 @@
 {
-  "name": "angular-electron",
-  "version": "12.0.0",
-  "description": "Angular 15 with Electron 22 (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "rcp-electron-angular",
+  "version": "0.0.1",
+  "description": "Rejestracja czasu pracy - wersja PILKINGTON",
+  "homepage": "https://github.com/",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Aleksander Kupiec",
+    "email": "aleksander.kupiec@sipsoftware.pl"
   },
   "keywords": [
-    "angular",
-    "angular 15",
+    "rcp",
+    "pilkington",
+    "igp",
     "electron",
-    "electron 22",
-    "nodejs",
-    "typescript",
-    "playwright",
-    "eslint",
-    "sass",
-    "windows",
-    "mac",
-    "linux"
+    "angular"
   ],
   "main": "app/main.js",
   "private": true,
