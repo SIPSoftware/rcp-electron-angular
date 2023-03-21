@@ -9,5 +9,6 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+    "serialport": "^10.5.0"
   }
 }
