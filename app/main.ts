@@ -1,6 +1,7 @@
 import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
+import { SerialPort } from 'serialport';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -81,3 +82,22 @@ try {
   // Catch Error
   // throw e;
 }
+
+
+const port = new SerialPort({ path: 'COM5', baudRate: 9600, autoOpen: false });
+
+console.log(port.isOpen);
+if (!port.isOpen) {
+  port.open(function (err) {
+    if (err) {
+      return console.log('Error opening port: ', err.message);
+    }
+
+    // Because there's no callback to write, write errors will be emitted on the port:
+  });
+}
+
+port.on('data', function (data) {
+  console.log('Data:', data.toString());
+  win.webContents.send('serialport', data.toString());
+});
