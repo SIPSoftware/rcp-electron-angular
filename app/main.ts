@@ -16,9 +16,7 @@ const configFile = args.config;
 console.log('Command line arguments: ', args, process.argv);
 
 // load config file
-if (configFile) {
-    loadConfig(configFile);
-}
+loadConfig(configFile);
 
 const loadUrl = () => {
     if (serve) {
@@ -31,9 +29,13 @@ const loadUrl = () => {
         // Path when running electron executable
         let pathIndex = './index.html';
 
-        if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
+        if (fs.existsSync(path.join(__dirname, '../../dist/index.html'))) {
             // Path when running electron in local folder
-            pathIndex = '../dist/index.html';
+            pathIndex = '../../dist/index.html';
+        }
+        if (fs.existsSync(path.join(__dirname, '../index.html'))) {
+            // Path when running electron on deployed app
+            pathIndex = '../index.html';
         }
 
         const url = new URL(path.join('file:', __dirname, pathIndex));
@@ -92,9 +94,7 @@ function createWindow(): BrowserWindow {
     });
 
     const contents = win.webContents.on('did-finish-load', () => {
-        if (configFile) {
-            loadConfig(configFile);
-        }
+        loadConfig(configFile);
         console.log('did-finish-load', getConfig);
 
         // contents.send('new-config', config);
