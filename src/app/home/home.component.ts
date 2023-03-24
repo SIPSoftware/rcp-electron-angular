@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AppConfig } from '../../../app/interfaces/config.interface';
+import { AppConfig } from '../../../app/src/interfaces/config.interface';
 import { ElectronService } from '../core/services';
 
 @Component({

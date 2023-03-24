@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "rootDir": "./app",
-    "baseUrl": "/app",
-    "outDir": "./app/dist",
+    "rootDir": "app/src",
+    "outDir": "app/dist",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -21,7 +20,7 @@
     ]
   },
   "files": [
-    "app/main.ts"
+    "app/src/main.ts"
   ],
   "exclude": [
     "node_modules",

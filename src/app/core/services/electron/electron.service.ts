@@ -6,7 +6,7 @@ import { App, ipcRenderer, IpcRendererEvent, webFrame } from 'electron';
 import { Subject } from 'rxjs';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
-import { AppConfig } from '../../../../../app/interfaces/config.interface';
+import { AppConfig } from '../../../interfaces/config.interface';
 
 @Injectable({
     providedIn: 'root',
