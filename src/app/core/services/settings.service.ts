@@ -27,6 +27,9 @@ export class SettingsService implements OnDestroy {
                     api: {
                         server: 'http://localhost:3000',
                     },
+                    rfid: {
+                        port: 'COM5',
+                    },
                 },
             };
             this.afterSettingsChanged();

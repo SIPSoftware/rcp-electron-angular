@@ -5,4 +5,7 @@ export type AppConfig = {
     api: {
         server: string;
     };
+    rfid: {
+        port: string;
+    };
 };

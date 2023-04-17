@@ -44,7 +44,7 @@ const loadUrl = () => {
 };
 // uruchomienie portu COM
 const port = new SerialPort({
-    path: 'COM5',
+    path: getConfig().rfid.port,
     baudRate: 9600,
     autoOpen: false,
 });
