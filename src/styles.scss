@@ -1,34 +1,45 @@
-/*You can add global styles to this file, and also import other style files
-html, body {
+ html, body {
   margin: 0;
   padding: 0;
-
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Roboto, Helvetica, sans-serif;
+// display:flex;
 }
-*/
-@use '@angular/material' as mat;
 
-@include mat.core();
+.container{
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
 
-$my-primary: mat.define-palette(mat.$indigo-palette, 500);
-$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+.main {
+  height:100%;
+  // align-content: center;
+  justify-content: flex-start;
+  display:flex;
+  flex-flow:column;
+}
 
-// The "warn" palette is optional and defaults to red if not specified.
-$my-warn: mat.define-palette(mat.$red-palette);
-$my-typography: mat.define-typography-config($font-family: 'Roboto',);
+.flex-auto {
+  flex: 1;
+}
 
-$my-theme: mat.define-light-theme((
- color: (
-   primary: $my-primary,
-   accent: $my-accent,
-   warn: $my-warn,
- ),
- typography: $my-typography,
- density: 0,
-));
+.item{
+  margin: 10px;
+  padding: 10px;
+  // border-style: solid;
+}
 
-@include mat.core-theme($my-theme);
+.bottom{
+  background-color: lightpink;
+  display:flex;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 10px 50px
+}
 
-@include mat.typography-hierarchy($my-typography);
-@include mat.all-component-themes($my-theme);
+.border{
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+}

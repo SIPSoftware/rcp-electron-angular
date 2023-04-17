@@ -1,1 +1,15 @@
-<router-outlet></router-outlet>
+<div class="container">
+    <mat-toolbar color="primary">
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/">Ekran główny</button>
+            <button mat-menu-item routerLink="/settings">Ustawienia</button>
+        </mat-menu>
+        <span>Rejestracja czasu pracy</span>
+    </mat-toolbar>
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+</div>

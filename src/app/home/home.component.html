@@ -1,13 +1,14 @@
-<div class="container" mat-body>
-    <h1 class="title">
-        {{ 'PAGES.HOME.TITLE' | translate }}
-    </h1>
-    <h1 class="title">{{ config | json }}</h1>
-    <h2>Olek</h2>
-
-    <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
-    <button mat-raised-button color="primary">Primary</button>
-    <button mat-raised-button color="accent">Accent</button>
-    <button mat-raised-button color="warn">Warn</button>
-    <button mat-raised-button>Basic</button>
+<div class="main">
+    <div class="item mat-elevation-z10">
+        <h1>Instalacja: {{ productionNodeName }}</h1>
+    </div>
+    <div class="item flex-auto"></div>
+    <div class="item"></div>
+    <div class="bottom">
+        <button mat-raised-button color="primary">Primary</button>
+        <button mat-raised-button color="accent">Accent</button>
+        <button mat-raised-button color="warn">Warn</button>
+        <div class="flex-auto"></div>
+        <button mat-raised-button>Basic</button>
+    </div>
 </div>

@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components';
 
 import { HomeRoutingModule } from './home/home-routing.module';
-import { DetailRoutingModule } from './detail/detail-routing.module';
 
 const routes: Routes = [
     {
@@ -18,11 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        RouterModule.forRoot(routes, {}),
-        HomeRoutingModule,
-        DetailRoutingModule,
-    ],
+    imports: [RouterModule.forRoot(routes, {}), HomeRoutingModule],
     exports: [RouterModule],
 })
 export class AppRoutingModule {}

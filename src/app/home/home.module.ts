@@ -7,9 +7,10 @@ import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
 import { CoreModule } from '../core/core.module';
 import { MaterialModule } from '../shared/material.module';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
-    declarations: [HomeComponent],
+    declarations: [HomeComponent, SettingsComponent],
     imports: [
         CommonModule,
         SharedModule,

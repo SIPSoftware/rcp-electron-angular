@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -12,9 +13,9 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { HomeModule } from './home/home.module';
-import { DetailModule } from './detail/detail.module';
 
 import { AppComponent } from './app.component';
+import { MaterialModule } from './shared/material.module';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
@@ -24,12 +25,12 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
     declarations: [AppComponent],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         HttpClientModule,
         CoreModule,
         SharedModule,
         HomeModule,
-        DetailModule,
         AppRoutingModule,
         TranslateModule.forRoot({
             loader: {
@@ -38,6 +39,7 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
                 deps: [HttpClient],
             },
         }),
+        MaterialModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
