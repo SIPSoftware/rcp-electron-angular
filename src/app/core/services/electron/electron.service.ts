@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
 import { App, ipcRenderer, IpcRendererEvent, webFrame } from 'electron';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import { AppConfig } from '../../../interfaces/config.interface';
-import { SettingsService } from '../settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,8 +18,9 @@ export class ElectronService {
     fs: typeof fs;
 
     configSubject = new Subject<AppConfig>();
+    rfidSubject = new Subject<string>();
 
-    constructor() {
+    constructor(private zone: NgZone) {
         // Conditional imports
         if (this.isElectron) {
             this.ipcRenderer = window.require('electron').ipcRenderer;
@@ -45,19 +45,28 @@ export class ElectronService {
                 'serialport',
                 (event: IpcRendererEvent, args: any[]) => {
                     console.log('serialport', args);
+                    this.zone.run(() => {
+                        if (args.length > 0) {
+                            this.rfidSubject.next(args.toString());
+                        }
+                    });
                 }
             );
             this.ipcRenderer.on(
                 'new-config',
                 (event: IpcRendererEvent, args: AppConfig) => {
-                    console.log('new-config', args);
-                    this.configSubject.next(args);
+                    this.zone.run(() => {
+                        console.log('new-config', args);
+                        this.configSubject.next(args);
+                    });
                 }
             );
 
             this.ipcRenderer.invoke('get-config').then((config: AppConfig) => {
-                console.log('Answer:', config);
-                this.configSubject.next(config);
+                this.zone.run(() => {
+                    console.log('Answer:', config);
+                    this.configSubject.next(config);
+                });
             });
 
             // Notes :

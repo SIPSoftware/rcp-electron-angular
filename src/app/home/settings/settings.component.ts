@@ -22,11 +22,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.formatSettings(this.settingsService.settings);
-        console.log(this.formattedSettings);
         this.settingsSubs = this.settingsService.settingsSubject.subscribe(
             (settings) => {
                 this.formatSettings(settings);
-                console.log(this.formattedSettings);
                 this.settings = settings;
             }
         );

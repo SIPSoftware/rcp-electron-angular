@@ -37,7 +37,6 @@ export class SettingsService implements OnDestroy {
         this.configSubs = this.electronService.configSubject.subscribe(
             (config) => {
                 this.settings = { ...this.settings, config };
-                // console.log(this.settings);
                 this.afterSettingsChanged();
             }
         );

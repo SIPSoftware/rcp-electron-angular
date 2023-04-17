@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AppConfig } from '../../../app/src/interfaces/config.interface';
 import { ElectronService, Settings, SettingsService } from '../core/services';
-import { ProductionNode } from '@olokup/cutter-common';
 import { CommonService } from '../core/services/common.service';
 
 @Component({
@@ -14,9 +12,10 @@ import { CommonService } from '../core/services/common.service';
 export class HomeComponent implements OnInit, OnDestroy {
     settings: Settings;
     productionNodeName: string;
+    rfid: string;
 
     settingsSubs: Subscription;
-    productionNodesSubs: Subscription;
+    rfidSubs: Subscription;
 
     constructor(
         private router: Router,
@@ -27,7 +26,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     afterConfigChanged(): void {
         this.commonService.getAllProductionNodes().subscribe((nodes) => {
-            // this.electronService.getAllProductionnodes().subscribe((nodes) => {
             const node = nodes.find(
                 (n) => n.id === +this.settings.config.instalacja.numer
             );
@@ -44,6 +42,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (this.settingsSubs) {
             this.settingsSubs.unsubscribe();
         }
+        if (this.rfidSubs) {
+            this.rfidSubs.unsubscribe();
+        }
     }
 
     ngOnInit(): void {
@@ -57,5 +58,10 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.afterConfigChanged();
             }
         );
+        this.rfidSubs = this.electronService.rfidSubject.subscribe((rfid) => {
+            this.rfid = rfid;
+        });
     }
+
+    onPrimaryBtnClick(): void {}
 }
