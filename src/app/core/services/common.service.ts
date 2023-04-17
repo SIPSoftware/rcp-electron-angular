@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductionNode } from '@olokup/cutter-common';
 import { Observable, Subject, tap } from 'rxjs';
+import { SettingsService } from './settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -9,11 +10,17 @@ import { Observable, Subject, tap } from 'rxjs';
 export class CommonService {
     productionNodesSubject: Subject<ProductionNode[]>;
 
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        private settingsService: SettingsService
+    ) {}
 
     getAllProductionNodes(): Observable<ProductionNode[]> {
+        console.log('getAllProductionNodes():', this.settingsService.settings);
         return this.http.get<ProductionNode[]>(
-            'http://localhost:3000/plan/node'
+            [this.settingsService.settings.config.api.server, 'plan/node'].join(
+                '/'
+            )
         );
     }
 }

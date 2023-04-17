@@ -12,13 +12,7 @@ import { CommonService } from '../core/services/common.service';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-    settings: Settings = {
-        config: {
-            instalacja: {
-                numer: 10,
-            },
-        },
-    };
+    settings: Settings;
     productionNodeName: string;
 
     settingsSubs: Subscription;
@@ -54,6 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         if (!this.electronService.isElectron) {
+            this.settings = this.settingsService.settings;
             this.afterConfigChanged();
         }
         this.settingsSubs = this.settingsService.settingsSubject.subscribe(

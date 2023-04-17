@@ -24,6 +24,9 @@ export class SettingsService implements OnDestroy {
                     instalacja: {
                         numer: 5,
                     },
+                    api: {
+                        server: 'http://localhost:3000',
+                    },
                 },
             };
             this.afterSettingsChanged();
