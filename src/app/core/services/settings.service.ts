@@ -21,7 +21,7 @@ export class SettingsService implements OnDestroy {
         if (!this.electronService.isElectron) {
             this.settings = {
                 config: {
-                    instalacja: {
+                    stanowisko: {
                         numer: 5,
                     },
                     api: {

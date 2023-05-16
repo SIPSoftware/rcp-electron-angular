@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ProductionNode } from '@olokup/cutter-common';
+import {
+    ProductionNode,
+    RCPDepartment,
+    RCPWorkplace,
+} from '@olokup/cutter-common';
 import { Observable, Subject, tap } from 'rxjs';
 import { SettingsService } from './settings.service';
 

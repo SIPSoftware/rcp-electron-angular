@@ -1,5 +1,5 @@
 export type AppConfig = {
-    instalacja: {
+    stanowisko: {
         numer: number;
     };
     api: {

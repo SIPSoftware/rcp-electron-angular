@@ -1,6 +1,10 @@
 <div class="main">
     <div class="item mat-elevation-z4">
-        <h1>Instalacja: {{ productionNodeName }}</h1>
+        <h1>Stanowisko: {{ workplace?.name || 'Niepoprawne stanowisko' }}</h1>
+        <h1>
+            Wydział:
+            {{ workplace?.department?.name || 'Niepoprawne stanowisko' }}
+        </h1>
     </div>
     <div class="item mat-elevation-z4 flex-auto">
         <p>Ostatni odczyt: {{ rfid }}</p>
