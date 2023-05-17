@@ -1,22 +1,109 @@
 <div class="main">
     <div class="item mat-elevation-z4">
-        <h1>Stanowisko: {{ workplace?.name || 'Niepoprawne stanowisko' }}</h1>
         <h1>
-            Wydział:
-            {{ workplace?.department?.name || 'Niepoprawne stanowisko' }}
+            {{ workplace?.department?.name || 'Niepoprawny wydział' }} -
+            {{ workplace?.name || 'Niepoprawne stanowisko' }}
         </h1>
     </div>
-    <div class="item mat-elevation-z4 flex-auto">
-        <p>Ostatni odczyt: {{ rfid }}</p>
+    <div class="row flex-auto">
+        <div class="item mat-elevation-z4 flex-auto">
+            <div *ngIf="rfid">
+                <h1>
+                    <strong>{{
+                        actualUser?.eh_user?.name || 'Brak użytkownika'
+                    }}</strong>
+                </h1>
+                <p>
+                    RFID: <strong>{{ rfid }}</strong>
+                </p>
+                <p>
+                    Identyfikator użytkownika:
+                    <strong>{{ actualUser?.id || '0' }}</strong>
+                </p>
+                <p>
+                    Domyślna rola: <strong>{{ actualUser?.role?.name }}</strong>
+                </p>
+                <div *ngIf="activeSessions.length === 0">
+                    <h2>Obecnie nie masz otwartych sesji</h2>
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        (click)="onStartSessionClick()"
+                    >
+                        Rozpocznij pracę
+                    </button>
+                </div>
+                <div *ngIf="activeSessions.length !== 0">
+                    <div *ngFor="let session of activeSessions">
+                        <div class="row">
+                            <div class="item">
+                                Sesja rozpoczęta
+                                <strong>{{
+                                    session.started | date : 'yyyy-MM-dd HH:mm'
+                                }}</strong>
+                            </div>
+                            <div class="item">
+                                na
+                                <strong>{{
+                                    session.workplace.name ||
+                                        'Nieznane stanowisko'
+                                }}</strong>
+                            </div>
+                            <div class="item">
+                                jako
+                                <strong>{{ session.role.name }}</strong>
+                            </div>
+                            <button
+                                mat-raised-button
+                                color="warn"
+                                (click)="onEndSessionClick(session.id)"
+                            >
+                                Zakończ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!rfid">
+                <h1>Nie zalogowany</h1>
+            </div>
+        </div>
+        <div class="item mat-elevation-z4">
+            <h1>Lista zalogowanych użytkowników:</h1>
+            <div *ngIf="workplaceSessions.length === 0">
+                <h2>Brak zalogowanych użytkowników</h2>
+            </div>
+            <div *ngIf="workplaceSessions.length !== 0">
+                <div *ngFor="let session of workplaceSessions">
+                    <div class="row">
+                        <div class="item">{{ session.name }}</div>
+                        <div class="item">
+                            {{ session.started | date : 'yyyy-MM-dd HH:mm' }}
+                        </div>
+                        <div class="item">
+                            {{ session.role.name || 'Brak roli' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="item"></div>
     <div class="bottom">
-        <button mat-raised-button color="primary" (click)="onPrimaryBtnClick()">
-            Primary
-        </button>
-        <button mat-raised-button color="accent">Accent</button>
-        <button mat-raised-button color="warn">Warn</button>
-        <div class="flex-auto"></div>
-        <button mat-raised-button>Basic</button>
+        <div *ngIf="!isElectron">
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="onButton1Click()"
+            >
+                7418399
+            </button>
+            <button mat-raised-button color="accent" (click)="onButton2Click()">
+                7353966
+            </button>
+            <button mat-raised-button color="warn" (click)="onButton3Click()">
+                7191020
+            </button>
+            <div class="flex-auto"></div>
+        </div>
     </div>
 </div>

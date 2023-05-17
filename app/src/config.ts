@@ -6,7 +6,7 @@ let config: AppConfig = {
     api: {
         server: 'http://localhost:3000',
     },
-    instalacja: {
+    stanowisko: {
         numer: 0,
     },
     rfid: {

@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-    ProductionNode,
     RCPDepartment,
+    RCPRole,
+    RCPSession,
+    RCPUser,
     RCPWorkplace,
 } from '@olokup/cutter-common';
-import { Observable, Subject, tap } from 'rxjs';
+import { Observable, Subject, Subscription, tap } from 'rxjs';
 import { SettingsService } from './settings.service';
+import { ElectronService } from './electron/electron.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,20 +19,110 @@ export class RCPService {
 
     departments: RCPDepartment[] = [];
     workplaces: RCPWorkplace[] = [];
+    users: RCPUser[] = [];
+    roles: RCPRole[] = [];
 
     private fetchDepartmentsCompleted: boolean;
     private fetchWorplacesCompleted: boolean;
+    private fetchUsersCompleted: boolean;
+    private fetchRolesCompleted: boolean;
+
+    private settingsSubs: Subscription;
 
     constructor(
         private http: HttpClient,
+        private electronService: ElectronService,
         private settingsService: SettingsService
     ) {
-        this.initializeData();
+        this.settingsSubs = this.settingsService.settingsSubject.subscribe(
+            (settings) => {
+                this.initializeData();
+            }
+        );
+        if (!this.electronService.isElectron) {
+            this.initializeData();
+        }
+    }
+
+    getRCPSessionsForUser(userId: number): Observable<RCPSession[]> {
+        console.log('getRCPSessionsForUser():', this.settingsService.settings);
+        return this.http.get<RCPSession[]>(
+            [
+                this.settingsService.settings.config.api.server,
+                'rcp',
+                'user_active_sessions',
+                userId,
+            ].join('/')
+        );
+    }
+
+    getRCPSessionsForWorkplace(workplaceId: number): Observable<RCPSession[]> {
+        console.log(
+            'getRCPSessionsForWorkplace():',
+            this.settingsService.settings
+        );
+        return this.http.get<RCPSession[]>(
+            [
+                this.settingsService.settings.config.api.server,
+                'rcp',
+                'workplace_active_sessions',
+                workplaceId,
+            ].join('/')
+        );
+    }
+
+    createSession(
+        userId: number,
+        workplaceId: number,
+        roleId: number,
+        sessionType: number
+    ): Observable<number> {
+        const body: {
+            userId: number;
+            workplaceId: number;
+            roleId: number;
+            operator: string;
+            sessionType: number;
+        } = {
+            userId,
+            workplaceId,
+            roleId,
+            sessionType,
+            operator: 'NODE',
+        };
+        return this.http.put<number>(
+            [
+                this.settingsService.settings.config.api.server,
+                'rcp',
+                'create_session',
+            ].join('/'),
+            body
+        );
+    }
+
+    closeSession(sessionId: number): Observable<number> {
+        const body: {
+            sessionId: number;
+            operator: string;
+        } = {
+            sessionId,
+            operator: 'NODE',
+        };
+        return this.http.put<number>(
+            [
+                this.settingsService.settings.config.api.server,
+                'rcp',
+                'close_session',
+            ].join('/'),
+            body
+        );
     }
 
     private initializeData() {
         this.fetchDepartmentsCompleted = false;
         this.fetchWorplacesCompleted = false;
+        this.fetchUsersCompleted = false;
+        this.fetchRolesCompleted = false;
 
         this.getAllRCPDepartments().subscribe((departments) => {
             console.log(departments);
@@ -44,11 +137,27 @@ export class RCPService {
             this.fetchWorplacesCompleted = true;
             this.initializationCompleted();
         });
+
+        this.getAllRCPUsers().subscribe((users) => {
+            //            console.log(users);
+            this.users = users;
+            this.fetchUsersCompleted = true;
+            this.initializationCompleted();
+        });
+
+        this.getAllRCPRoles().subscribe((roles) => {
+            this.roles = roles;
+            this.fetchRolesCompleted = true;
+            this.initializationCompleted();
+        });
     }
 
     private initializationCompleted() {
-        if (this.fetchDepartmentsCompleted && this.fetchWorplacesCompleted) {
-            console.log('initialization completed');
+        if (
+            this.fetchDepartmentsCompleted &&
+            this.fetchWorplacesCompleted &&
+            this.fetchUsersCompleted
+        ) {
             this.initializationCompletedSubject.next(true);
         }
     }
@@ -69,6 +178,26 @@ export class RCPService {
             [
                 this.settingsService.settings.config.api.server,
                 'rcp/workplaces',
+            ].join('/')
+        );
+    }
+
+    private getAllRCPUsers(): Observable<RCPUser[]> {
+        console.log('getAllRCPUsers():', this.settingsService.settings);
+        return this.http.get<RCPUser[]>(
+            [this.settingsService.settings.config.api.server, 'rcp/users'].join(
+                '/'
+            )
+        );
+    }
+
+    private getAllRCPRoles(): Observable<RCPRole[]> {
+        console.log('getAllRCPUsers():', this.settingsService.settings);
+        return this.http.get<RCPRole[]>(
+            [
+                this.settingsService.settings.config.api.server,
+                'rcp',
+                'roles',
             ].join('/')
         );
     }
