@@ -50,7 +50,7 @@
     "@angular/platform-browser": "15.2.4",
     "@angular/platform-browser-dynamic": "15.2.4",
     "@angular/router": "15.2.4",
-    "@olokup/cutter-common": "1.4.5",
+    "@olokup/cutter-common": "1.5.7",
     "rxjs": "7.8.0",
     "tslib": "^2.5.0",
     "zone.js": "0.13.0"

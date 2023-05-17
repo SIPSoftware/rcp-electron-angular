@@ -9,7 +9,7 @@
     "main": "dist/main.js",
     "private": true,
     "dependencies": {
-        "@olokup/cutter-common": "^1.4.5",
+        "@olokup/cutter-common": "^1.5.7",
         "args-parser": "^1.3.0",
         "read-ini-file": "^4.0.0",
         "rxjs": "^7.8.0",
