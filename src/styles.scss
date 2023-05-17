@@ -20,6 +20,11 @@
   flex-flow:column;
 }
 
+.row {
+  display:flex;
+  flex-flow:row;
+}
+
 .flex-auto {
   flex: 1;
 }
@@ -31,7 +36,7 @@
 }
 
 .bottom{
-  background-color: lightpink;
+  // background-color: lightpink;
   display:flex;
   justify-content: flex-start;
   gap: 20px;
