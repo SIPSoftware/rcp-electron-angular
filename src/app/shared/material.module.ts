@@ -5,6 +5,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
     declarations: [],
@@ -15,6 +18,9 @@ import { MatIconModule } from '@angular/material/icon';
         MatToolbarModule,
         MatMenuModule,
         MatIconModule,
+        MatSnackBarModule,
+        MatInputModule,
+        MatFormFieldModule,
     ],
     exports: [
         MatButtonModule,
@@ -22,6 +28,9 @@ import { MatIconModule } from '@angular/material/icon';
         MatToolbarModule,
         MatMenuModule,
         MatIconModule,
+        MatSnackBarModule,
+        MatInputModule,
+        MatFormFieldModule,
     ],
 })
 export class MaterialModule {}

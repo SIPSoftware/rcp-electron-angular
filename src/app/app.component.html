@@ -6,8 +6,12 @@
         <mat-menu #menu="matMenu">
             <button mat-menu-item routerLink="/">Ekran główny</button>
             <button mat-menu-item routerLink="/settings">Ustawienia</button>
+            <button mat-menu-item routerLink="/login">Logowanie</button>
         </mat-menu>
         <span>Rejestracja czasu pracy</span>
+        <div class="flex-auto"></div>
+        <div>{{ loggedUser?.ehUser?.username }}</div>
+        <div>{{ loggedUser?.role | json }}</div>
     </mat-toolbar>
     <div class="main">
         <router-outlet></router-outlet>

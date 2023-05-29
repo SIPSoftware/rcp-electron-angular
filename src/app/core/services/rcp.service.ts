@@ -118,6 +118,21 @@ export class RCPService {
         );
     }
 
+    getRCPUser(id: number): Observable<RCPUser> {
+        const url = [
+            this.settingsService.settings.config.api.server,
+            'rcp',
+            'users',
+            id,
+        ].join('/');
+        console.log(url);
+        return this.http.get<RCPUser>(url).pipe(
+            tap((res) => {
+                console.log(res);
+            })
+        );
+    }
+
     private initializeData() {
         this.fetchDepartmentsCompleted = false;
         this.fetchWorplacesCompleted = false;
@@ -125,14 +140,14 @@ export class RCPService {
         this.fetchRolesCompleted = false;
 
         this.getAllRCPDepartments().subscribe((departments) => {
-            console.log(departments);
+            //console.log(departments);
             this.departments = departments;
             this.fetchDepartmentsCompleted = true;
             this.initializationCompleted();
         });
 
         this.getAllRCPWorkplaces().subscribe((workplaces) => {
-            console.log(workplaces);
+            //console.log(workplaces);
             this.workplaces = workplaces;
             this.fetchWorplacesCompleted = true;
             this.initializationCompleted();

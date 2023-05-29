@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     onStartSessionClick() {
         if (this.actualUser && this.workplace) {
-            const roleId = this.actualUser.role_id;
+            const roleId = this.actualUser.roleId;
             this.rcpService
                 .createSession(this.actualUser.id, this.workplace.id, roleId, 0)
                 .subscribe((sessionId) => {
@@ -142,12 +142,12 @@ export class HomeComponent implements OnInit, OnDestroy {
                 .subscribe((sessions) => {
                     this.workplaceSessions = sessions.map((session) => ({
                         name: this.rcpService.users.find(
-                            (user) => user.id === session.user_id
-                        ).eh_user.name,
+                            (user) => user.id === session.userId
+                        ).ehUser.name,
                         started: session.started,
                         id: session.id,
                         role: this.rcpService.roles.find(
-                            (role) => role.id === session.role_id
+                            (role) => role.id === session.roleId
                         ),
                     }));
                 });
@@ -160,14 +160,14 @@ export class HomeComponent implements OnInit, OnDestroy {
                 .subscribe((sessions) => {
                     this.activeSessions = sessions.map((session) => {
                         const workpl = this.rcpService.workplaces.find(
-                            (w) => w.id === session.workplace_id
+                            (w) => w.id === session.workplaceId
                         );
                         return {
                             started: session.started,
                             workplace: workpl,
                             id: session.id,
                             role: this.rcpService.roles.find(
-                                (role) => role.id === session.role_id
+                                (role) => role.id === session.roleId
                             ),
                         };
                     });

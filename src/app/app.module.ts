@@ -2,7 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {
+    HttpClientModule,
+    HttpClient,
+    HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -16,6 +20,7 @@ import { HomeModule } from './home/home.module';
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './shared/material.module';
+import { AuthInterceptor } from './core/auth/auth-interceptor';
 
 // AoT requires an exported function for factories
 const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
@@ -41,7 +46,14 @@ const httpLoaderFactory = (http: HttpClient): TranslateHttpLoader =>
         }),
         MaterialModule,
     ],
-    providers: [],
+    providers: [
+        AuthInterceptor,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useExisting: AuthInterceptor,
+            multi: true,
+        },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
