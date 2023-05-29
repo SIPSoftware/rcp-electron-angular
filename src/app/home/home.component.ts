@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { ElectronService, Settings, SettingsService } from '../core/services';
-import { CommonService } from '../core/services/common.service';
 import { RCPService } from '../core/services/rcp.service';
 import { RCPRole, RCPUser, RCPWorkplace } from '@olokup/cutter-common';
 import { setInterval } from 'timers';
+import { AuthService } from '../core/auth/auth.service';
 
 interface UserSession {
     id: number;
@@ -38,15 +37,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     rfidSubs: Subscription;
     rcpInitailizationSubs: Subscription;
     refreshTimerSubs: Subscription;
+    userWasSetSubs: Subscription;
 
     isElectron: boolean;
 
     constructor(
-        private router: Router,
         private electronService: ElectronService,
         private settingsService: SettingsService,
-        private commonService: CommonService,
-        private rcpService: RCPService
+        private rcpService: RCPService,
+        private authService: AuthService
     ) {}
 
     afterConfigChanged(): void {
@@ -62,6 +61,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
         if (this.rcpInitailizationSubs) {
             this.rcpInitailizationSubs.unsubscribe();
+        }
+        if (this.userWasSetSubs) {
+            this.userWasSetSubs.unsubscribe();
         }
     }
 
@@ -91,6 +93,10 @@ export class HomeComponent implements OnInit, OnDestroy {
                     this.getWorkplace();
                 }
             );
+
+        this.userWasSetSubs = this.authService.userWasSet.subscribe((user) => {
+            this.actualUser = user;
+        });
 
         setInterval(() => {
             this.refreshData();
