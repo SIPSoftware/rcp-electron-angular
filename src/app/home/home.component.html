@@ -81,7 +81,7 @@
                             {{ session.started | date : 'yyyy-MM-dd HH:mm' }}
                         </div>
                         <div class="item">
-                            {{ session.role.name || 'Brak roli' }}
+                            {{ session.role?.name || 'Brak roli' }}
                         </div>
                     </div>
                 </div>
