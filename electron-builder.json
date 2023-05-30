@@ -1,5 +1,5 @@
 {
-    "asar": true,
+    "asar": false,
     "directories": {
         "output": "release/"
     },
@@ -9,6 +9,7 @@
         "!*.map",
         "!package.json",
         "!package-lock.json",
+        "!app.config.ini",
         {
             "from": "../dist",
             "filter": ["**/*"]
@@ -16,7 +17,10 @@
     ],
     "win": {
         "icon": "dist/assets/icons/rcp256px.ico",
-        "target": ["nsis"]
+        "target": ["portable"]
+    },
+    "nsis": {
+        "oneClick": false
     },
     "portable": {
         "splashImage": "dist/assets/icons/electron.bmp"
