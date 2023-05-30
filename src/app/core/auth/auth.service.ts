@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+    HttpClient,
+    HttpErrorResponse,
+    HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RCPUser, User } from '@olokup/cutter-common';
 import {
@@ -101,7 +105,32 @@ export class AuthService {
         );
     }
 
-    loginByRFID(rfid: string): void {}
+    loginByRFID(rfid: string): Observable<any> {
+        const url = [
+            this.settingsService.settings.config.api.server,
+            'auth',
+            'loginByRFID',
+        ].join('/');
+        let params: HttpParams = new HttpParams();
+        params = params.append('rfid', rfid);
+        console.log(params);
+        return this.http.post<any>(url, { rfid }).pipe(
+            catchError(this.handleError),
+            tap((res) => {
+                console.log(res);
+                if (!res.error) {
+                    const user: User = res.user;
+                    this.setSession({
+                        accessToken: res.access_token,
+                        expiresIn: res.expires_in,
+                        user,
+                        username: res.username,
+                    });
+                }
+            }),
+            shareReplay()
+        );
+    }
 
     getToken(): string {
         return this.jwtToken;

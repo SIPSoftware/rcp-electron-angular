@@ -9,6 +9,7 @@ import {
     UserPermission,
     getUserPermissions,
 } from '../shared/helpers/permission.helper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface UserSession {
     id: number;
@@ -45,6 +46,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     userWasSetSubs: Subscription;
 
     isElectron: boolean;
+
+    private snackBar: MatSnackBar;
 
     constructor(
         private electronService: ElectronService,
@@ -85,11 +88,16 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
         );
         this.rfidSubs = this.electronService.rfidSubject.subscribe((rfid) => {
-            this.rfid = rfid;
-            this.actualUser = this.rcpService.users.find(
-                (user) => user.rfid === rfid
-            );
-            this.getSessionForUser();
+            console.log(rfid);
+            if (rfid && rfid.length > 0) {
+                this.authService.loginByRFID(rfid).subscribe((res) => {
+                    if (res.error) {
+                        this.snackBar.open(res.error, 'Zamknij', {
+                            duration: 3000,
+                        });
+                    }
+                });
+            }
         });
 
         this.rcpInitailizationSubs =
@@ -101,7 +109,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         this.userWasSetSubs = this.authService.userWasSet.subscribe((user) => {
             this.actualUser = user;
-            this.getUserPermissions();
+            this.rfid = user?.rfid || undefined;
+            if (user) {
+                this.getUserPermissions();
+                this.getSessionForUser();
+            }
         });
 
         setInterval(() => {

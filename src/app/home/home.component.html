@@ -14,13 +14,6 @@
                     }}</strong>
                 </h1>
                 <p>
-                    RFID: <strong>{{ rfid }}</strong>
-                </p>
-                <p>
-                    Identyfikator użytkownika:
-                    <strong>{{ actualUser?.id || '0' }}</strong>
-                </p>
-                <p>
                     Domyślna rola: <strong>{{ actualUser?.role?.name }}</strong>
                 </p>
                 <p>
@@ -67,12 +60,12 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="!rfid">
+            <div *ngIf="!actualUser">
                 <h1>Nie zalogowany</h1>
             </div>
         </div>
         <div class="item mat-elevation-z4">
-            <h1>Lista zalogowanych użytkowników:</h1>
+            <h1>Lista pracujących użytkowników:</h1>
             <div *ngIf="workplaceSessions.length === 0">
                 <h2>Brak zalogowanych użytkowników</h2>
             </div>

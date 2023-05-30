@@ -11,8 +11,8 @@ export function getUserPermissions(
     workplace: RCPWorkplace,
     permissionString: string
 ): UserPermission {
-    console.log(workplace);
-    if (workplace) {
+    // console.log(workplace);
+    if (workplace && permissionString && permissionString.length > 0) {
         const workplaceId = workplace.id;
         const deparmentId = workplace.departmentId;
         const permissions = permissionString.split(';');
