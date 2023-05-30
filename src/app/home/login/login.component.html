@@ -1,38 +1,29 @@
 <div class="container">
-    <div class="logowanie">
-        <h1>Logowanie</h1>
-        <form autocomplete="off" [formGroup]="form" class="main">
-            <mat-form-field appearance="fill">
-                <mat-label>Login</mat-label>
-                <input
-                    matInput
-                    type="text"
-                    name="email"
-                    formControlName="email"
-                />
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Hasło</mat-label>
-                <input
-                    matInput
-                    [type]="hidepassword ? 'password' : 'text'"
-                    name="password"
-                    formControlName="password"
-                />
-                <mat-icon matSuffix (click)="hidepassword = !hidepassword">
-                    {{
-                        hidepassword ? 'visibility_off' : 'visibility'
-                    }}</mat-icon
-                >
-            </mat-form-field>
-            <button
-                mat-raised-button
-                color="primary"
-                fxLayoutAlign="center center"
-                (click)="login()"
+    <h1>Logowanie</h1>
+    <form autocomplete="off" [formGroup]="form" class="logowanie">
+        <mat-form-field appearance="fill">
+            <mat-label>Login</mat-label>
+            <input matInput type="text" name="email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Hasło</mat-label>
+            <input
+                matInput
+                [type]="hidepassword ? 'password' : 'text'"
+                name="password"
+                formControlName="password"
+            />
+            <mat-icon matSuffix (click)="hidepassword = !hidepassword">
+                {{ hidepassword ? 'visibility_off' : 'visibility' }}</mat-icon
             >
-                Zaloguj
-            </button>
-        </form>
-    </div>
+        </mat-form-field>
+        <button
+            mat-raised-button
+            color="primary"
+            fxLayoutAlign="center center"
+            (click)="login()"
+        >
+            Zaloguj
+        </button>
+    </form>
 </div>

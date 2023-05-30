@@ -10,9 +10,11 @@ import { MaterialModule } from '../shared/material.module';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UsersComponent } from './users/users.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
-    declarations: [HomeComponent, SettingsComponent, LoginComponent],
+    declarations: [HomeComponent, SettingsComponent, LoginComponent, UsersComponent, EditUserComponent],
     imports: [
         CommonModule,
         SharedModule,

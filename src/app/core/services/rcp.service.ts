@@ -133,6 +133,31 @@ export class RCPService {
         );
     }
 
+    getAllRCPUsers(): Observable<RCPUser[]> {
+        console.log('getAllRCPUsers():', this.settingsService.settings);
+        return this.http.get<RCPUser[]>(
+            [this.settingsService.settings.config.api.server, 'rcp/users'].join(
+                '/'
+            )
+        );
+    }
+
+    getAllRCPDepartments(): Observable<RCPDepartment[]> {
+        console.log('getAllRCPDepartmants():', this.settingsService.settings);
+        return this.http
+            .get<RCPDepartment[]>(
+                [
+                    this.settingsService.settings.config.api.server,
+                    'rcp/departments',
+                ].join('/')
+            )
+            .pipe(
+                tap((d) => {
+                    this.departments = d;
+                })
+            );
+    }
+
     private initializeData() {
         this.fetchDepartmentsCompleted = false;
         this.fetchWorplacesCompleted = false;
@@ -141,7 +166,6 @@ export class RCPService {
 
         this.getAllRCPDepartments().subscribe((departments) => {
             //console.log(departments);
-            this.departments = departments;
             this.fetchDepartmentsCompleted = true;
             this.initializationCompleted();
         });
@@ -177,16 +201,6 @@ export class RCPService {
         }
     }
 
-    private getAllRCPDepartments(): Observable<RCPDepartment[]> {
-        console.log('getAllRCPDepartmants():', this.settingsService.settings);
-        return this.http.get<RCPDepartment[]>(
-            [
-                this.settingsService.settings.config.api.server,
-                'rcp/departments',
-            ].join('/')
-        );
-    }
-
     private getAllRCPWorkplaces(): Observable<RCPWorkplace[]> {
         console.log('getAllRCPWorkplaces():', this.settingsService.settings);
         return this.http.get<RCPWorkplace[]>(
@@ -194,15 +208,6 @@ export class RCPService {
                 this.settingsService.settings.config.api.server,
                 'rcp/workplaces',
             ].join('/')
-        );
-    }
-
-    private getAllRCPUsers(): Observable<RCPUser[]> {
-        console.log('getAllRCPUsers():', this.settingsService.settings);
-        return this.http.get<RCPUser[]>(
-            [this.settingsService.settings.config.api.server, 'rcp/users'].join(
-                '/'
-            )
         );
     }
 

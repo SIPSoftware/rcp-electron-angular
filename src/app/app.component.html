@@ -1,5 +1,5 @@
-<div class="container">
-    <mat-toolbar color="primary">
+<div class="full">
+    <mat-toolbar class="navbar" color="primary">
         <button mat-button [matMenuTriggerFor]="menu">
             <mat-icon>menu</mat-icon>
         </button>
@@ -7,6 +7,7 @@
             <button mat-menu-item routerLink="/">Ekran główny</button>
             <button mat-menu-item routerLink="/settings">Ustawienia</button>
             <button mat-menu-item routerLink="/login">Logowanie</button>
+            <button mat-menu-item routerLink="/users">Użytkownicy</button>
         </mat-menu>
         <span>Rejestracja czasu pracy</span>
         <div class="flex-auto"></div>
@@ -22,7 +23,7 @@
             </button>
         </div>
     </mat-toolbar>
-    <div class="main">
+    <div class="content">
         <router-outlet></router-outlet>
     </div>
 </div>

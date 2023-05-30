@@ -1,23 +1,38 @@
- html, body {
+* {
   margin: 0;
   padding: 0;
-  height: 100%;
-  font-family: Roboto, Helvetica, sans-serif;
-// display:flex;
+  // box-sizing: border-box;
+}
+
+html{
+}
+
+body {
+  width:100%;
+  height:100vh;
+}
+
+.full{
+  display:flex;
+  height:100%;
+  flex-direction: column;
+}
+
+.navbar{
+  flex-shrink: 0;
+}
+
+.content{
+  flex:1;
+  overflow: auto;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .container{
-  height: 100%;
   display: flex;
   flex-flow: column;
-}
-
-.main {
-  height:100%;
-  // align-content: center;
-  justify-content: flex-start;
-  display:flex;
-  flex-flow:column;
 }
 
 .row {
@@ -26,7 +41,7 @@
 }
 
 .flex-auto {
-  flex: 1;
+  flex:1;
 }
 
 .item{
