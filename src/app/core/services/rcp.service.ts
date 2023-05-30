@@ -7,7 +7,7 @@ import {
     RCPUser,
     RCPWorkplace,
 } from '@olokup/cutter-common';
-import { Observable, Subject, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription, tap } from 'rxjs';
 import { SettingsService } from './settings.service';
 import { ElectronService } from './electron/electron.service';
 
@@ -15,7 +15,7 @@ import { ElectronService } from './electron/electron.service';
     providedIn: 'root',
 })
 export class RCPService {
-    initializationCompletedSubject = new Subject<boolean>();
+    initializationCompletedSubject = new BehaviorSubject<boolean>(false);
 
     departments: RCPDepartment[] = [];
     workplaces: RCPWorkplace[] = [];

@@ -1,11 +1,11 @@
 <div class="container">
-    <h1>Użytkownicy</h1>
-    <form (ngSubmit)="onFilter(f)" #f="ngForm">
+    <h1 class="title">Lista użytkowników RCP</h1>
+    <form (ngSubmit)="onFilter(f)" #f="ngForm" class="item">
         <mat-form-field>
             <mat-label>Filtr</mat-label>
             <input
                 matInput
-                placeholder="wyszukaj po loginie, nazwie lub grupie"
+                placeholder="wyszukaj po nazwie, wydziale lub rfid"
                 type="text"
                 [ngModel]="filter"
                 name="filter"
