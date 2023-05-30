@@ -23,6 +23,9 @@
                 <p>
                     Domyślna rola: <strong>{{ actualUser?.role?.name }}</strong>
                 </p>
+                <p>
+                    {{ actualPermission | json }}
+                </p>
                 <div *ngIf="activeSessions.length === 0">
                     <h2>Obecnie nie masz otwartych sesji</h2>
                     <button

@@ -5,6 +5,10 @@ import { RCPService } from '../core/services/rcp.service';
 import { RCPRole, RCPUser, RCPWorkplace } from '@olokup/cutter-common';
 import { setInterval } from 'timers';
 import { AuthService } from '../core/auth/auth.service';
+import {
+    UserPermission,
+    getUserPermissions,
+} from '../shared/helpers/permission.helper';
 
 interface UserSession {
     id: number;
@@ -30,6 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     workplace: RCPWorkplace;
     rfid: string;
     actualUser: RCPUser;
+    actualPermission: UserPermission;
     activeSessions: UserSession[] = [];
     workplaceSessions: WorkplaceSession[] = [];
 
@@ -96,6 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         this.userWasSetSubs = this.authService.userWasSet.subscribe((user) => {
             this.actualUser = user;
+            this.getUserPermissions();
         });
 
         setInterval(() => {
@@ -138,6 +144,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             (n) => n.id === +this.settings.config.stanowisko.numer
         );
         this.getSessionForWorkplace();
+        this.getUserPermissions();
     }
 
     private getSessionForWorkplace() {
@@ -184,5 +191,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     private refreshData() {
         this.getSessionForUser();
         this.getSessionForWorkplace();
+    }
+
+    private getUserPermissions() {
+        if (this.actualUser && this.workplace) {
+            this.actualPermission = getUserPermissions(
+                this.workplace,
+                this.actualUser.permissions
+            );
+        }
     }
 }
