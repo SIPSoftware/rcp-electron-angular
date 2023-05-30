@@ -36,7 +36,9 @@ export class RCPService {
     ) {
         this.settingsSubs = this.settingsService.settingsSubject.subscribe(
             (settings) => {
-                this.initializeData();
+                if (settings) {
+                    this.initializeData();
+                }
             }
         );
         if (!this.electronService.isElectron) {

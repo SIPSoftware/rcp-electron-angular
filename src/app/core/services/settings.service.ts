@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { AppConfig } from '../../interfaces/config.interface';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { ElectronService } from './electron/electron.service';
 
 export interface Settings {
@@ -13,7 +13,7 @@ export interface Settings {
 export class SettingsService implements OnDestroy {
     settings: Settings;
 
-    settingsSubject = new Subject<Settings>();
+    settingsSubject = new BehaviorSubject<Settings>(undefined);
 
     private configSubs: Subscription;
 

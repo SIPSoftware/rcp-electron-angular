@@ -17,6 +17,7 @@ import {
 import { SettingsService } from '../services/settings.service';
 import jwt_decode from 'jwt-decode';
 import { AuthInterceptor } from './auth-interceptor';
+import { ElectronService } from '../services';
 
 export interface AuthResult {
     accessToken: string;
@@ -40,42 +41,45 @@ export class AuthService {
     constructor(
         private http: HttpClient,
         private settingsService: SettingsService,
-        private authInterceptors: AuthInterceptor
+        private authInterceptors: AuthInterceptor,
+        private electronService: ElectronService
     ) {
-        const jwtToken = localStorage.getItem('id_token');
-        const expiresAt: number = +localStorage.getItem('expires_at');
-        const loggedUser = localStorage.getItem('loggedUser');
-        this.loggedUser = JSON.parse(loggedUser);
+        if (!this.electronService.isElectron) {
+            const jwtToken = localStorage.getItem('id_token');
+            const expiresAt: number = +localStorage.getItem('expires_at');
+            const loggedUser = localStorage.getItem('loggedUser');
+            this.loggedUser = JSON.parse(loggedUser);
 
-        const now = new Date();
-        let jwtUsername = '';
-        if (jwtToken && jwtToken.length > 0) {
-            jwtUsername = jwt_decode<any>(jwtToken).username;
-        }
+            const now = new Date();
+            let jwtUsername = '';
+            if (jwtToken && jwtToken.length > 0) {
+                jwtUsername = jwt_decode<any>(jwtToken).username;
+            }
 
-        const isTokenValid =
-            jwtToken &&
-            jwtToken.length > 0 &&
-            now.getSeconds() < expiresAt &&
-            jwtUsername &&
-            jwtUsername.length > 0 &&
-            jwtUsername.toUpperCase() ===
-                this.loggedUser?.ehUser?.username?.toUpperCase();
+            const isTokenValid =
+                jwtToken &&
+                jwtToken.length > 0 &&
+                now.getSeconds() < expiresAt &&
+                jwtUsername &&
+                jwtUsername.length > 0 &&
+                jwtUsername.toUpperCase() ===
+                    this.loggedUser?.ehUser?.username?.toUpperCase();
 
-        // console.log(isTokenValid);
-        if (isTokenValid) {
-            this.jwtToken = jwtToken;
-            this.authInterceptors.setToken(this.jwtToken);
-            this.getRCPUser(this.loggedUser.id).subscribe((user) => {
-                if (user) {
-                    this.loggedUser = user;
-                    this.userWasSet.next(this.loggedUser);
-                } else {
-                    this.logout();
-                }
-            });
-        } else {
-            this.logout();
+            // console.log(isTokenValid);
+            if (isTokenValid) {
+                this.jwtToken = jwtToken;
+                this.authInterceptors.setToken(this.jwtToken);
+                this.getRCPUser(this.loggedUser.id).subscribe((user) => {
+                    if (user) {
+                        this.loggedUser = user;
+                        this.userWasSet.next(this.loggedUser);
+                    } else {
+                        this.logout();
+                    }
+                });
+            } else {
+                this.logout();
+            }
         }
     }
 
