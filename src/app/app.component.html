@@ -10,7 +10,17 @@
         </mat-menu>
         <span>Rejestracja czasu pracy</span>
         <div class="flex-auto"></div>
-        <div>{{ loggedUser?.ehUser?.username }}</div>
+        <div *ngIf="loggedUser" class="row">
+            <div>{{ loggedUser?.ehUser?.username }}</div>
+            <button mat-button (click)="logout()">
+                <mat-icon>logout</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="!loggedUser">
+            <button mat-button routerLink="/login">
+                <mat-icon>login</mat-icon>
+            </button>
+        </div>
     </mat-toolbar>
     <div class="main">
         <router-outlet></router-outlet>

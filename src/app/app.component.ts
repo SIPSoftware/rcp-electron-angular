@@ -49,4 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
             this.userWasSetSubs.unsubscribe();
         }
     }
+
+    logout(): void {
+        this.authService.logout();
+    }
 }
