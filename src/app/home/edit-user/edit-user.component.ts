@@ -6,9 +6,8 @@ import {
     Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Route } from 'playwright';
 import { Subscription } from 'rxjs';
-import { RCPService } from '../../core/services';
+import { ElectronService, RCPService } from '../../core/services';
 import { RCPUser } from '@olokup/cutter-common';
 
 @Component({
@@ -24,17 +23,20 @@ export class EditUserComponent implements OnInit, OnDestroy {
     nameControl = new FormControl('', Validators.required);
     loginControl = new FormControl('', Validators.required);
     passwordControl = new FormControl('', Validators.required);
+    rfidControl = new FormControl('');
 
     private paramMapSub: Subscription;
+    private onRfidReadSub: Subscription;
     private editUserId: number;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private formbuilder: FormBuilder,
-        private rcpService: RCPService
+        private rcpService: RCPService,
+        private electronService: ElectronService
     ) {
-        this.form = formbuilder.group({
+        this.form = this.formbuilder.group({
             login: this.loginControl,
             name: this.nameControl,
             password: this.passwordControl,
@@ -51,6 +53,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
                         this.loginControl.setValue(user.ehUser.username);
                         this.nameControl.setValue(user.ehUser.name);
                         this.passwordControl.setValue(user.ehUser.password);
+                        this.rfidControl.setValue(user.rfid);
                         // this.cutterIdControl.setValue(user.cutterId);
                     } else {
                         this.router.navigate(['..', 'users'], {
@@ -60,12 +63,42 @@ export class EditUserComponent implements OnInit, OnDestroy {
                 });
             }
         });
+        this.onRfidReadSub = this.electronService.rfidSubject.subscribe(
+            (rfid) => {
+                this.rfidControl.setValue(rfid);
+            }
+        );
     }
     ngOnDestroy(): void {
         if (this.paramMapSub) {
             this.paramMapSub.unsubscribe();
         }
+        if (this.onRfidReadSub) {
+            this.onRfidReadSub.unsubscribe();
+        }
     }
 
-    save(): void {}
+    save(): void {
+        if (this.form.valid) {
+            console.log(this.form.value);
+            // this.usersService.saveUser(this.editUserId, user).subscribe((res) => {
+            //   if (res.error) {
+            //     this.snackBar.open(res.error, 'Zamknij', {
+            //       duration: 3000,
+            //     });
+            //   } else if (res) {
+            //     let message = '';
+            //     if (this.editUserId) {
+            //       message = `Użytkownik ${res.username} został zmieniony`;
+            //     } else {
+            //       message = `Użytkownik ${res.username} został utworzony`;
+            //     }
+            //     this.snackBar.open(message, 'Zamknij', {
+            //       duration: 3000,
+            //     });
+            //   }
+            //   this.router.navigate(['admin', 'users']);
+            // });
+        }
+    }
 }

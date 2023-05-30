@@ -31,6 +31,15 @@
                 {{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon
             >
         </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>RFID</mat-label>
+            <input
+                matInput
+                type="text"
+                name="rfid"
+                [formControl]="rfidControl"
+            />
+        </mat-form-field>
         <div class="row">
             <button
                 mat-raised-button
