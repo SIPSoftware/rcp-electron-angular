@@ -47,8 +47,14 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.initializationCompletedSubs =
             this.rcpService.initializationCompletedSubject.subscribe(
                 (result) => {
-                    this.rcpUsers = this.rcpService.users;
-                    this.filterItems();
+                    // this.rcpUsers = this.rcpService.users;
+                    // this.filterItems();
+                    if (result) {
+                        this.rcpService.getAllRCPUsers().subscribe((users) => {
+                            this.rcpUsers = users;
+                            this.filterItems();
+                        });
+                    }
                 }
             );
     }
@@ -80,7 +86,7 @@ export class UsersComponent implements OnInit, OnDestroy {
                 rfid: user.rfid,
             }))
             .filter((d) => {
-                console.log(d);
+                // console.log(d);
                 const joinedString =
                     d.name?.toLowerCase() +
                     d.rfid +

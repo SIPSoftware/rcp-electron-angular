@@ -11,6 +11,13 @@ import { BehaviorSubject, Observable, Subject, Subscription, tap } from 'rxjs';
 import { SettingsService } from './settings.service';
 import { ElectronService } from './electron/electron.service';
 
+export class RCPUserDto {
+    id: number;
+    username: string;
+    password: string;
+    rfid: string;
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -106,9 +113,11 @@ export class RCPService {
         const body: {
             sessionId: number;
             operator: string;
+            endDate: Date;
         } = {
             sessionId,
             operator: 'NODE',
+            endDate: new Date(),
         };
         return this.http.put<number>(
             [
@@ -158,6 +167,17 @@ export class RCPService {
                     this.departments = d;
                 })
             );
+    }
+
+    updateRCPUser(dto: RCPUserDto): Observable<any> {
+        return this.http.post<RCPUser>(
+            [
+                this.settingsService.settings.config.api.server,
+                'rcp',
+                'users',
+            ].join('/'),
+            dto
+        );
     }
 
     private initializeData() {

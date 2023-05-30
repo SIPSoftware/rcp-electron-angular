@@ -7,8 +7,9 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ElectronService, RCPService } from '../../core/services';
+import { ElectronService, RCPService, RCPUserDto } from '../../core/services';
 import { RCPUser } from '@olokup/cutter-common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-edit-user',
@@ -34,12 +35,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
         private router: Router,
         private formbuilder: FormBuilder,
         private rcpService: RCPService,
-        private electronService: ElectronService
+        private electronService: ElectronService,
+        private snackBar: MatSnackBar
     ) {
         this.form = this.formbuilder.group({
             login: this.loginControl,
             name: this.nameControl,
             password: this.passwordControl,
+            rfid: this.rfidControl,
         });
     }
 
@@ -80,25 +83,31 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     save(): void {
         if (this.form.valid) {
+            const rcpUserDto: RCPUserDto = {
+                id: this.editUserId,
+                username: this.form.value.username,
+                password: this.form.value.password,
+                rfid: this.form.value.rfid,
+            };
             console.log(this.form.value);
-            // this.usersService.saveUser(this.editUserId, user).subscribe((res) => {
-            //   if (res.error) {
-            //     this.snackBar.open(res.error, 'Zamknij', {
-            //       duration: 3000,
-            //     });
-            //   } else if (res) {
-            //     let message = '';
-            //     if (this.editUserId) {
-            //       message = `Użytkownik ${res.username} został zmieniony`;
-            //     } else {
-            //       message = `Użytkownik ${res.username} został utworzony`;
-            //     }
-            //     this.snackBar.open(message, 'Zamknij', {
-            //       duration: 3000,
-            //     });
-            //   }
-            //   this.router.navigate(['admin', 'users']);
-            // });
+            this.rcpService.updateRCPUser(rcpUserDto).subscribe((res) => {
+                if (res.error) {
+                    this.snackBar.open(res.error, 'Zamknij', {
+                        duration: 3000,
+                    });
+                } else if (res) {
+                    let message = '';
+                    // if (this.editUserId) {
+                    message = `Użytkownik ${res.username} został zmieniony`;
+                    // } else {
+                    //   message = `Użytkownik ${res.username} został utworzony`;
+                    // }
+                    this.snackBar.open(message, 'Zamknij', {
+                        duration: 3000,
+                    });
+                }
+                this.router.navigate(['users']);
+            });
         }
     }
 }
