@@ -52,3 +52,4 @@ testem.log
 .DS_Store
 Thumbs.db
 rcp-electron-angular.code-workspace
+app/app.config.ini
